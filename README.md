@@ -6,29 +6,32 @@ An AI-powered interactive story generator where you pick a theme and the app bui
 
 ## Table of Contents
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-  - [Backend](#backend)
-  - [Frontend](#frontend)
-  - [Infrastructure](#infrastructure)
-- [Deployment](#deployment)
-  - [Live App](#live-app)
-  - [Deploy to Render (Docker)](#deploy-to-render-docker)
+- [Choose Your Own Adventure AI](#choose-your-own-adventure-ai)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Tech Stack](#tech-stack)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+    - [Infrastructure](#infrastructure)
   - [Environment Variables](#environment-variables)
-- [How to Use the App (Regular User)](#how-to-use-the-app-regular-user)
-  - [Step 1 — Enter a Theme](#step-1--enter-a-theme)
-  - [Step 2 — Wait for Generation](#step-2--wait-for-generation)
-  - [Step 3 — Make Choices](#step-3--make-choices)
-  - [Step 4 — Reach an Ending](#step-4--reach-an-ending)
-- [Local Development Setup](#local-development-setup)
-  - [Prerequisites](#prerequisites)
-  - [Backend Setup](#backend-setup)
-  - [Frontend Setup](#frontend-setup)
-- [Project Structure](#project-structure)
-- [API Reference](#api-reference)
-- [Docker Build](#docker-build)
-- [Contributing](#contributing)
-- [License](#license)
+    - [Backend (`backend/.env` for local dev)](#backend-backendenv-for-local-dev)
+    - [Frontend (`frontend/.env` for local dev)](#frontend-frontendenv-for-local-dev)
+  - [How to Use the App (Regular User)](#how-to-use-the-app-regular-user)
+    - [Step 1 — Enter a Theme](#step-1--enter-a-theme)
+    - [Step 2 — Wait for Generation](#step-2--wait-for-generation)
+    - [Step 3 — Make Choices](#step-3--make-choices)
+    - [Step 4 — Reach an Ending](#step-4--reach-an-ending)
+  - [Local Development Setup](#local-development-setup)
+    - [Prerequisites](#prerequisites)
+    - [Backend Setup](#backend-setup)
+    - [Frontend Setup](#frontend-setup)
+  - [Project Structure](#project-structure)
+  - [API Reference](#api-reference)
+    - [`POST /api/stories/create`](#post-apistoriescreate)
+    - [`GET /api/jobs/{job_id}`](#get-apijobsjob_id)
+    - [`GET /api/stories/{story_id}/complete`](#get-apistoriesstory_idcomplete)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ---
 
@@ -82,29 +85,9 @@ An AI-powered interactive story generator where you pick a theme and the app bui
 
 ---
 
-## Deployment
+## Environment Variables
 
-### Live App
-
-> 🔗 **https://choose-your-own-adventure-ai.onrender.com**
-
-*(The app runs on Render's free tier — it may take 30–60 seconds to wake up on the first request if it has been idle.)*
-
-### Deploy to Render (Docker)
-
-This repo includes a `render.yaml` blueprint that provisions the web service and a PostgreSQL database automatically.
-
-1. Fork or push this repository to GitHub.
-2. Go to [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint**.
-3. Connect your GitHub repo — Render will detect `render.yaml` and configure everything.
-4. When prompted, enter your `OPENAI_API_KEY` securely in the Render dashboard (it is marked `sync: false` in `render.yaml` so it is never stored in source control).
-5. Click **Apply** — Render will build the Docker image, provision the database, wire the connection variables, and deploy.
-
-After the first deploy, update the `ALLOWED_ORIGINS` environment variable in the Render dashboard to your actual service URL (e.g. `https://your-service-name.onrender.com`).
-
-### Environment Variables
-
-#### Backend (`backend/.env` for local dev)
+### Backend (`backend/.env` for local dev)
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
@@ -119,7 +102,7 @@ After the first deploy, update the `ALLOWED_ORIGINS` environment variable in the
 | `DB_USER` | Prod only | — | PostgreSQL user (auto-wired by Render) |
 | `DB_PASSWORD` | Prod only | — | PostgreSQL password (auto-wired by Render) |
 
-#### Frontend (`frontend/.env` for local dev)
+### Frontend (`frontend/.env` for local dev)
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
@@ -329,32 +312,6 @@ Returns the full story tree once the job is complete.
   "all_nodes": { "1": {...}, "2": {...} }
 }
 ```
-
----
-
-## Docker Build
-
-To build and run the single-container image locally:
-
-```bash
-# Build
-docker build -t choose-adventure-ai .
-
-# Run (replace with your real key)
-docker run -p 10000:10000 \
-  -e OPENAI_API_KEY=sk-... \
-  -e DEBUG=False \
-  -e API_PREFIX=/api \
-  -e ALLOWED_ORIGINS=http://localhost:10000 \
-  -e DB_HOST=... \
-  -e DB_PORT=5432 \
-  -e DB_NAME=... \
-  -e DB_USER=... \
-  -e DB_PASSWORD=... \
-  choose-adventure-ai
-```
-
-The app will be available at [http://localhost:10000](http://localhost:10000).
 
 ---
 
