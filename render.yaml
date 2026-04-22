@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: choose-your-own-adventure-ai
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: API_PREFIX
+        value: "/api"
+      - key: ALLOWED_ORIGINS
+        # Update to your actual Render URL after first deploy
+        value: "https://choose-your-own-adventure-ai.onrender.com"
+      - key: OPENAI_API_KEY
+        sync: false        # Render will prompt you to enter this securely
+      - key: DB_HOST
+        fromDatabase:
+          name: adventure-ai-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: adventure-ai-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: adventure-ai-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: adventure-ai-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: adventure-ai-db
+          property: password
+
+databases:
+  - name: adventure-ai-db
+    plan: free
+    databaseName: adventure_ai
+    user: adventure_ai_user
