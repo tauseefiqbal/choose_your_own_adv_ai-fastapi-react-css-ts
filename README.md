@@ -23,6 +23,7 @@ An AI-powered interactive story generator where you pick a theme and the app bui
     - [Step 4 — Reach an Ending](#step-4--reach-an-ending)
   - [Local Development Setup](#local-development-setup)
     - [Prerequisites](#prerequisites)
+    - [Clone the Repository](#clone-the-repository)
     - [Backend Setup](#backend-setup)
     - [Frontend Setup](#frontend-setup)
   - [Project Structure](#project-structure)
@@ -153,6 +154,13 @@ After any ending you can click **Play Again** to restart from the very beginning
 - Python 3.13+
 - Node.js 20+
 - An OpenAI API key ([platform.openai.com/api-keys](https://platform.openai.com/api-keys))
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/tauseefiqbal/choose_your_own_adv_ai-fastapi-react-css-ts.git
+cd choose_your_own_adv_ai-fastapi-react-css-ts
+```
 
 ### Backend Setup
 
