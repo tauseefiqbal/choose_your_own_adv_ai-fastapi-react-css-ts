@@ -37,7 +37,7 @@ COPY backend/ ./
 # main.py already detects this directory and serves it
 COPY --from=frontend-builder /app/frontend/dist ./static
 
-# Render injects $PORT at runtime (usually 10000)
-EXPOSE 10000
+# Expose port (Fly.io uses 8080, Render uses 10000)
+EXPOSE 8080
 
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-10000}"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"]
