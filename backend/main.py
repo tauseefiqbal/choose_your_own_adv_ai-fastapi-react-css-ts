@@ -33,6 +33,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Health check endpoint for Docker and monitoring
+@app.get("/health")
+@app.get(f"{settings.API_PREFIX}/health")
+async def health_check():
+    """Health check endpoint for container orchestration and monitoring"""
+    return {"status": "healthy", "service": "choose-your-own-adventure-api"}
+
 app.include_router(story.router, prefix=settings.API_PREFIX)
 app.include_router(job.router, prefix=settings.API_PREFIX)
 
