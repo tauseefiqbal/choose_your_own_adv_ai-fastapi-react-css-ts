@@ -1,14 +1,44 @@
 {
+  "version": 2,
+  "name": "choose-your-own-adventure-ai",
   "builds": [
     {
       "src": "Dockerfile.vercel",
-      "use": "@vercel/docker"
+      "use": "@vercel/docker",
+      "config": {
+        "distDir": "frontend/dist"
+      }
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "http://backend:8080/api/$1"
+    },
+    {
+      "src": "/docs",
+      "dest": "http://backend:8080/docs"
+    },
+    {
+      "src": "/redoc",
+      "dest": "http://backend:8080/redoc"
+    },
+    {
+      "src": "/openapi.json",
+      "dest": "http://backend:8080/openapi.json"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/index.html"
     }
-  ]
+  ],
+  "env": {
+    "DEBUG": "False",
+    "API_PREFIX": "/api"
+  },
+  "build": {
+    "env": {
+      "NODE_VERSION": "20"
+    }
+  }
 }
