@@ -22,7 +22,7 @@ RUN npm run build
 # ─────────────────────────────────────────────
 FROM python:3.13-slim
 
-# psycopg2-binary + cryptography + uvicorn speedups
+# Install build tools for psycopg2, orjson, xxhash, etc.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev gcc \
     && rm -rf /var/lib/apt/lists/*
@@ -38,7 +38,7 @@ COPY backend/ ./
 # Copy React build into FastAPI static folder
 COPY --from=frontend-builder /app/frontend/dist ./static
 
-# SnapDeploy expects your app to listen on port 8080
+# SnapDeploy requires port 8080
 EXPOSE 8080
 
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8080"]
