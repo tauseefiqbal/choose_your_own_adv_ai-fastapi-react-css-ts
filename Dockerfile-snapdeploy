@@ -42,4 +42,3 @@ COPY --from=frontend-builder /app/frontend/dist ./static
 EXPOSE 8080
 
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8080"]
-w
